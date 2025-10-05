@@ -54,7 +54,7 @@
       }
 
       try {
-        const response = await fetch("certificates.json");
+        const response = await fetch("https://indtern.netlify.app/certificates.json");
         const data = await response.json();
 
         const cert = data.find(c => c.certificate_id === certId);
@@ -78,3 +78,4 @@
   </script>
 </body>
 </html>
+
