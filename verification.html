@@ -3,100 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Certificate Verification</title>
+  <title>Certificate Verification | IndTern</title>
   <style>
     body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #1c68c46c, #00c9a7);
-      color: #fefdfd;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
       text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 600px;
-      margin: 100px auto;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 16px;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(5px);
-      padding: 40px;
+      padding: 50px;
     }
     input {
-      width: 80%;
-      padding: 12px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      outline: none;
+      padding: 10px;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
     button {
-      margin-top: 20px;
-      background-color: #fff;
-      color: #007bff;
+      padding: 10px 20px;
       border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
+      background: #007bff;
+      color: white;
+      border-radius: 5px;
       cursor: pointer;
-      font-weight: 600;
-      transition: 0.3s;
+      margin-left: 10px;
     }
-    button:hover {
-      background-color: #007bff;
-      color: #fff;
-    }
-    .result-box {
+    #result {
       margin-top: 30px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 10px;
-      display: none;
-      text-align: left;
+      font-size: 18px;
+      color: #333;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🔍 IndTern Certificate Verification</h1>
-    <p>Enter your certificate ID below to verify its authenticity.</p>
-    <input type="text" id="certID" placeholder="Enter Certificate ID" required />
-    <br />
-    <button onclick="verifyCert()">Verify Certificate</button>
+  <h2>🎓 IndTern Certificate Verification</h2>
+  <p>Enter your Certificate ID below:</p>
 
-    <div class="result-box" id="resultBox">
-      <h3 id="verifyStatus"></h3>
-      <p id="studentName"></p>
-      <p id="studentDomain"></p>
-      <p id="issueDate"></p>
-    </div>
-  </div>
+  <input type="text" id="certId" placeholder="Enter Certificate ID (e.g. IND202510056743)">
+  <button onclick="verifyCertificate()">Verify Certificate</button>
+
+  <div id="result"></div>
 
   <script>
-    async function verifyCert() {
-      const inputID = document.getElementById("certID").value.trim();
-      const resultBox = document.getElementById("resultBox");
-      const verifyStatus = document.getElementById("verifyStatus");
-      const nameField = document.getElementById("studentName");
-      const domainField = document.getElementById("studentDomain");
-      const dateField = document.getElementById("issueDate");
+    async function verifyCertificate() {
+      const certId = document.getElementById("certId").value.trim();
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "";
 
-      const response = await fetch("certificates.json");
-      const data = await response.json();
+      if (!certId) {
+        resultDiv.innerHTML = "<p style='color:red;'>⚠️ Please enter a Certificate ID.</p>";
+        return;
+      }
 
-      const cert = data.find(c => c.certificate_id === inputID);
+      try {
+        const response = await fetch("certificates.json");
+        const data = await response.json();
 
-      resultBox.style.display = "block";
+        const cert = data.find(c => c.certificate_id === certId);
 
-      if (cert) {
-        verifyStatus.innerHTML = "✅ Certificate Verified Successfully!";
-        nameField.innerHTML = `<b>Name:</b> ${cert.student_name}`;
-        domainField.innerHTML = `<b>Domain:</b> ${cert.domain}`;
-        dateField.innerHTML = `<b>Issued On:</b> ${cert.issue_date}`;
-      } else {
-        verifyStatus.innerHTML = "❌ Invalid Certificate ID!";
-        nameField.innerHTML = "";
-        domainField.innerHTML = "";
-        dateField.innerHTML = "";
+        if (cert) {
+          resultDiv.innerHTML = `
+            <h3>✅ Certificate Verified</h3>
+            <p><b>Name:</b> ${cert.student_name}</p>
+            <p><b>Domain:</b> ${cert.domain}</p>
+            <p><b>Issued On:</b> ${cert.issue_date}</p>
+            <p><b>Certificate ID:</b> ${cert.certificate_id}</p>
+          `;
+        } else {
+          resultDiv.innerHTML = "<p style='color:red;'>❌ Invalid Certificate ID.</p>";
+        }
+      } catch (error) {
+        resultDiv.innerHTML = "<p style='color:red;'>⚠️ Error fetching certificate data.</p>";
+        console.error(error);
       }
     }
   </script>
