@@ -70,8 +70,11 @@
     "student_name": "Anushka Mittal",
     "domain": "Artificial Intelligence",
     "issue_date": "2025-05-10"
+  },
+   {
+    "certificate_id": "IND202554",
+    "student_name": "Astha",
+    "domain": "Front End Development",
+    "issue_date": "18/08/2025"
   }
-  
 ]
-
-
