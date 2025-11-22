@@ -82,7 +82,26 @@
     "student_name": "Rohan Kakkar",
     "domain": "Digital Marketing",
     "issue_date": "18/11/2025"
+  },
+   {
+    "certificate_id": "IND202510056755",
+    "student_name": "Radhika Raheja",
+    "domain": "Artificial Intelligence",
+    "issue_date": "11/10/2025"
+  },
+   {
+    "certificate_id": "IND202510056757",
+    "student_name": "Aamir",
+    "domain": "Python Programming",
+    "issue_date": "04/10/2025"
+  },
+   {
+    "certificate_id": "IND202510056756",
+    "student_name": "Krish Dhiman",
+    "domain": "Artifical Intelligence",
+    "issue_date": "02/10/2025"
   }
 ]
+
 
 
