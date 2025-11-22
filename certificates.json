@@ -100,8 +100,15 @@
     "student_name": "Krish Dhiman",
     "domain": "Artifical Intelligence",
     "issue_date": "02/10/2025"
-  }
+  },
+   {
+    "certificate_id": "IND202510056758",
+    "student_name": "Udit Chaudhary",
+    "domain": "Python Programming",
+    "issue_date": "02/10/2025"
+   }
 ]
+
 
 
 
