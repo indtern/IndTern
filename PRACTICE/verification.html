@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IndTern | Certificate Verification</title>
+
+    <meta name="description"
+          content="Verify the authenticity of IndTern internship certificates. Enter the certificate ID and candidate details to validate." />
+          <link rel="icon" href="logo1.png" type="image/png" />
+
+    <link rel="stylesheet" href="verification.css" />
+</head>
+
+<body>
+    <!-- ================= HEADER ================= -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand" aria-label="IndTern Home">
+                <img src="logo3.png" alt="IndTern logo" class="brand-logo" />
+                <span class="brand-text">
+                    <span class="brand-name">IndTern</span>
+                    <span class="brand-tagline">Building Careers, Not Barriers</span>
+                </span>
+            </a>
+
+            <nav class="site-nav" aria-label="Primary navigation">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="index.html#domains" class="nav-link">Internships</a></li>
+                    <li><a href="courses.html" class="nav-link">Courses</a></li>
+                    <li>
+                        <a href="verification.html"
+                           class="nav-link active">
+                            Certificate Verification
+                        </a>
+                    </li>
+                    <li>
+                        <a href="about.html"
+                           class="nav-link"
+                           rel="noopener noreferrer">
+                            About
+                        </a>
+                    </li>
+                    <li>
+                        <a href="contact.html"
+                           class="nav-link"
+                           rel="noopener noreferrer">
+                            Contact
+                        </a>
+                    </li>
+                </ul>
+
+                <a href="https://forms.gle/XTTPWNprCU3gy33x5"
+                   class="btn btn-primary nav-cta"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Apply Now
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main>
+        <!-- ========== COMPACT HERO BAND ========== -->
+        <section class="verify-hero">
+            <div class="container verify-hero-inner">
+                <div>
+                    <p class="eyebrow">Certificate Verification</p>
+                    <h1>Check if an IndTern certificate is genuine.</h1>
+                </div>
+                <p class="verify-hero-text">
+                    Enter the certificate details below. This page is meant for
+                    students, recruiters, and institutions who want to validate
+                    IndTern internship certificates.
+                </p>
+            </div>
+        </section>
+
+        <!-- ========== VERIFICATION LAYOUT ========== -->
+        <section class="verify-layout">
+            <div class="container verify-layout-inner">
+                <!-- LEFT: Verification card -->
+                <section class="verify-card">
+                    <header class="verify-card-header">
+                        <h2>Verify a Certificate</h2>
+                        <p>
+                            Please fill the fields exactly as they appear on the certificate
+                            for accurate verification.
+                        </p>
+                    </header>
+
+                    <form class="verify-form" action="#" method="post" novalidate>
+                        <div class="form-field">
+                            <label for="cert-id">
+                                Certificate ID <span>*</span>
+                            </label>
+                            <input type="text"
+                                   id="cert-id"
+                                   name="certificate_id"
+                                   required
+                                   placeholder="e.g., IND-2025-XXXX" />
+                        </div>
+
+                        <div class="form-field">
+                            <label for="student-name">
+                                Candidate Full Name <span>*</span>
+                            </label>
+                            <input type="text"
+                                   id="student-name"
+                                   name="candidate_name"
+                                   required
+                                   placeholder="Name as printed on certificate" />
+                        </div>
+
+                        <div class="form-field">
+                            <label for="email">
+                                Email ID
+                                <span class="optional">(optional)</span>
+                            </label>
+                            <input type="email"
+                                   id="email"
+                                   name="email"
+                                   placeholder="For confirmation reply (if needed)" />
+                        </div>
+
+                        <div class="form-field">
+                            <label for="domain">
+                                Internship Domain
+                                <span class="optional">(optional)</span>
+                            </label>
+                            <select id="domain" name="domain">
+                                <option value="">Select domain</option>
+                                <option>Web Development</option>
+                                <option>Java Programming</option>
+                                <option>Python Programming</option>
+                                <option>Android Development</option>
+                                <option>Full Stack Development</option>
+                                <option>C++ Programming</option>
+                                <option>Data Science</option>
+                                <option>Machine Learning</option>
+                                <option>Artificial Intelligence</option>
+                                <option>Cyber Security</option>
+                                <option>Business Analytics</option>
+                                <option>Financial Analysis</option>
+                                <option>Digital Marketing</option>
+                                <option>Human Resources</option>
+                                <option>Telecaller</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="completion">
+                                Completion Month &amp; Year
+                                <span class="optional">(optional)</span>
+                            </label>
+                            <input type="month"
+                                   id="completion"
+                                   name="completion_month" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary form-submit">
+                            Verify Certificate
+                        </button>
+                        <div id="verify-result" class="verify-result" aria-live="polite"></div>
+
+<p class="form-note">
+    Note: This verification tool checks your certificate against IndTern records.
+</p>
+
+                        
+                    </form>
+                </section>
+
+                <!-- RIGHT: Info / status side -->
+                <aside class="verify-side">
+                    <section class="info-panel">
+                        <h3>Who can use this page?</h3>
+                        <ul>
+                            <li>
+                                <strong>Candidates:</strong>
+                                Confirm that your certificate is registered with IndTern.
+                            </li>
+                            <li>
+                                <strong>Employers / HR:</strong>
+                                Validate certificates before hiring or shortlisting
+                                candidates.
+                            </li>
+                            <li>
+                                <strong>Colleges / Institutions:</strong>
+                                Verify completion for students who submit IndTern
+                                certificates as part of their records.
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section class="status-panel">
+                        <h3>What happens after you submit?</h3>
+                        <ol class="status-steps">
+                            <li>We check if the Certificate ID exists in our records.</li>
+                            <li>We match the candidate name and domain (if provided).</li>
+                            <li>You or the requester can be contacted if clarification is needed.</li>
+                        </ol>
+
+                        <div class="status-badges">
+                            <span class="status-chip status-valid">Valid</span>
+                            <span class="status-chip status-invalid">Invalid</span>
+                            <span class="status-chip status-review">Under Review</span>
+                        </div>
+
+                        <p class="status-note">
+                            These are the typical outcomes after verification. You can
+                            integrate logic to display real‑time results here later.
+                        </p>
+                    </section>
+
+                    <section class="bulk-panel">
+                        <h3>Bulk or urgent verification?</h3>
+                        <p>
+                            For multiple certificates, or urgent checks, you can directly
+                            email us with a list of Certificate IDs and candidate names.
+                        </p>
+                        <a href="mailto:contact.indtern@gmail.com" class="btn btn-ghost">
+                            Email for Bulk Verification
+                        </a>
+                    </section>
+                </aside>
+            </div>
+        </section>
+
+        <!-- ========== CTA STRIP ========== -->
+        <section class="cta-strip">
+            <div class="container cta-strip-inner">
+                <div>
+                    <h2>Want to earn a verifiable IndTern certificate?</h2>
+                    <p>
+                        Apply for an internship, complete the tasks, and receive a
+                        certificate that can be verified here any time.
+                    </p>
+                </div>
+                <a href="https://forms.gle/XTTPWNprCU3gy33x5"
+                   class="btn btn-light"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Apply for Internship
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <img src="logo1.png" alt="IndTern logo" class="footer-logo" />
+                <p class="footer-tagline">
+                    Intern, Inspire, and Make A Difference.
+                </p>
+            </div>
+
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h3>Explore</h3>
+                    <ul>
+                        <li><a href="index.html#domains">Internship Domains</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="verification.html">Certificate Verification</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li>
+                            <a href="about.html" rel="noopener noreferrer">
+                                About Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="contact.html" rel="noopener noreferrer">
+                                Contact Us
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <p>Email:</p>
+                    <a href="mailto:contact.indtern@gmail.com">
+                        contact.indtern@gmail.com
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2025 IndTern. All rights reserved.</p>
+                <p>Designed and Developed by IndTern.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('.verify-form');
+    if (!form) return;
+
+    const resultBox = document.getElementById('verify-result');
+    const submitButton = form.querySelector('.form-submit');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        // Reset result box
+        resultBox.className = 'verify-result';
+        resultBox.textContent = '';
+
+        submitButton.disabled = true;
+        const originalText = submitButton.textContent;
+        submitButton.textContent = 'Verifying...';
+
+        try {
+            const response = await fetch('PASTE_YOUR_WEB_APP_URL_HERE', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('HTTP status ' + response.status);
+            }
+
+            const result = await response.json();
+
+            if (result.status === 'valid') {
+                resultBox.classList.add('valid');
+                const c = result.certificate || {};
+                resultBox.textContent =
+                    'This certificate is VALID. ' +
+                    (c.candidate_name ? ('Candidate: ' + c.candidate_name + '. ') : '') +
+                    (c.domain ? ('Domain: ' + c.domain + '. ') : '') +
+                    (c.completion_month ? ('Completion: ' + c.completion_month + '.') : '');
+            } else if (result.status === 'invalid') {
+                resultBox.classList.add('invalid');
+                resultBox.textContent =
+                    'No matching certificate record was found. Please check the Certificate ID and Candidate Name.';
+            } else {
+                resultBox.classList.add('error');
+                resultBox.textContent =
+                    result.message || 'Unexpected response from server.';
+            }
+        } catch (err) {
+            console.error(err);
+            resultBox.classList.add('error');
+            resultBox.textContent =
+                'Unable to verify right now. Please try again later.';
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = originalText;
+        }
+    });
+});
+</script>
+</body>
+
+</html>
