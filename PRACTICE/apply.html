@@ -344,7 +344,361 @@
             </div>
         </section>
     </main>
+<!-- ========== FAQ CHATBOT (NO API) ========== -->
+<div class="faq-chatbot-widget">
+    <div class="faq-chatbot-toggle" id="faqChatbotToggle">
+        Need help? Chat with us
+    </div>
 
+    <div class="faq-chatbot-window" id="faqChatbotWindow">
+        <div class="faq-chatbot-header">
+            <span>IndTern Help Assistant</span>
+            <button type="button" class="faq-chatbot-close" id="faqChatbotClose">×</button>
+        </div>
+
+        <div class="faq-chatbot-messages" id="faqChatMessages">
+            <div class="faq-chatbot-message bot">
+                <p>
+                    Hi! I’m the IndTern assistant. You can ask about internships, domains,
+                    1‑on‑1 mentorship, certificate verification, or how to apply.
+                </p>
+                <div class="faq-topic-select-wrap">
+                    <label for="faqTopicSelect">Quick topics:</label>
+                    <select id="faqTopicSelect">
+                        <option value="">Choose a topic…</option>
+                        <option value="domains">Internship Domains</option>
+                        <option value="apply">How to Apply</option>
+                        <option value="mentorship">1‑on‑1 Mentorship</option>
+                        <option value="mentorship_fees">1‑on‑1 Mentorship Fees</option>
+                        <option value="internship_fees">Internship Fees / Stipend</option>
+                        <option value="certificate_verification">Certificate Verification</option>
+                        <option value="courses">Courses</option>
+                        <option value="contact">Contact / Support</option>
+                        <option value="other">Other (type your question)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <form class="faq-chatbot-input-area" id="faqChatForm">
+            <input
+                type="text"
+                id="faqChatInput"
+                placeholder="Type your question..."
+                autocomplete="off"
+                required
+            />
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</div>
+<script>
+    // ===== STATE TO REMEMBER LAST TOPIC =====
+    let lastTopic = null; // e.g. 'mentorship', 'domains', 'apply', etc.
+
+    // ===== BASE FAQ ENTRIES (FIRST QUESTIONS) =====
+    const faqData = [
+        {
+            topic: 'domains',
+            keywords: ['domain', 'domains', 'field', 'fields', 'internship', 'internships', 'available', 'offer'],
+            answer: `
+                We currently offer internships in multiple domains such as:<br><br>
+                • Web Development<br>
+                • Java / Python / C++ Programming<br>
+                • Android Development & Full Stack<br>
+                • Data Science, Machine Learning & AI<br>
+                • Cyber Security<br>
+                • Business Analytics, Financial Analysis<br>
+                • Digital Marketing, HR, Telecaller<br><br>
+                You can see the full list on the <a href="#domains">Internship Domains</a> section and apply from there.
+            `
+        },
+        {
+            topic: 'apply',
+            keywords: ['apply', 'application', 'how to apply', 'registration', 'register', 'form'],
+            answer: `
+                To apply for an internship, click on the <strong>Apply Now</strong> button on the home page,
+                or go to <a href="apply.html" target="_blank">apply.html</a> and fill the form with your details.
+            `
+        },
+        {
+            topic: 'mentorship',
+            keywords: ['1 on 1', '1‑on‑1', 'one on one', 'one-to-one', 'mentorship', 'mentor', 'personal guidance'],
+            answer: `
+                Our 1‑on‑1 Mentorship is a separate, personalised session with a mentor where you can discuss career doubts,
+                domain selection, resume/LinkedIn, projects and interview preparation.<br><br>
+                You can read full details on <a href="mentorship.html">mentorship.html</a> and apply from the mentorship apply page.
+            `
+        },
+        {
+            topic: 'internship_vs_mentorship',
+            keywords: ['difference', 'internship', 'mentorship', 'vs', 'compare'],
+            answer: `
+                <strong>Internship:</strong> Structured tasks/projects over a period of time, with a certificate on completion.<br>
+                <strong>1‑on‑1 Mentorship:</strong> A focused personal session to clear your doubts, plan your roadmap,
+                and get guidance. It is separate from the internship program.
+            `
+        },
+        {
+            topic: 'certificate_verification',
+            keywords: ['certificate', 'verify', 'verification', 'valid', 'authentic'],
+            answer: `
+                You can verify your IndTern certificate online at our Certificate Verification page:<br>
+                <a href="verification.html" target="_blank">verification.html</a><br><br>
+                Enter your certificate details there to check validity.
+            `
+        },
+        {
+            topic: 'courses',
+            keywords: ['course', 'courses', 'training'],
+            answer: `
+                IndTern also offers courses. You can view them on the Courses page:<br>
+                <a href="courses.html" target="_blank">courses.html</a>.
+            `
+        },
+        {
+            topic: 'contact',
+            keywords: ['contact', 'email', 'support', 'help', 'whatsapp'],
+            answer: `
+                You can contact us through the Contact page or by email:<br><br>
+                • Contact form: <a href="contact.html" target="_blank">contact.html</a><br>
+                • Email: <a href="mailto:contact.indtern@gmail.com">contact.indtern@gmail.com</a>
+            `
+        },
+        {
+            topic: 'msme',
+            keywords: ['msme', 'registered', 'registration', 'government'],
+            answer: `
+                Yes, IndTern is MSME registered. You can see the related information and logo in the
+                "Registered & Recognized" section on the home page.
+            `
+        },
+        {
+            topic: 'remote',
+            keywords: ['remote', 'online', 'work from home', 'wfh'],
+            answer: `
+                IndTern internships are designed to be flexible and often can be done remotely/online.
+                Please check the details mentioned on the application page or in the onboarding communication.
+            `
+        },
+        {
+            topic: 'duration',
+            keywords: ['duration', 'how long', 'month', 'months', 'period', 'time'],
+            answer: `
+                Internship duration can vary by domain and batch. Please refer to the details provided after you apply,
+                or mention your preference in the application form.
+            `
+        }
+    ];
+
+    // ===== CONTEXT-SPECIFIC FAQS (FOLLOW‑UP QUESTIONS) =====
+    const contextFaqData = [
+        {
+            topic: 'mentorship',
+            keywords: ['fee', 'fees', 'price', 'amount', 'charges', 'cost', 'pay', 'payment'],
+            answer: `
+                For 1‑on‑1 Mentorship, the latest fee and payment details are shown on the mentorship apply page,
+                along with the payment QR.<br><br>
+                Please check <a href="mentorship-apply.html">mentorship-apply.html</a> for the exact amount and QR.
+            `
+        },
+        {
+            topic: 'mentorship',
+            keywords: ['duration', 'how long', 'time', 'minutes'],
+            answer: `
+                A typical 1‑on‑1 mentorship session lasts around 45–60 minutes. In some cases,
+                it can go slightly longer depending on your doubts and discussion.
+            `
+        },
+        {
+            topic: 'domains',
+            keywords: ['fees', 'fee', 'paid', 'stipend', 'salary', 'cost'],
+            answer: `
+                Currently, our internships costs only Rs. 200 for each domain and also you will get a Verified Internship Certificates.
+            `
+        }
+    ];
+
+    const defaultAnswer = `
+        I’m not fully sure about this question.<br><br>
+        You can check the main sections of the site:<br>
+        • <a href="#domains">Internship Domains</a><br>
+        • <a href="mentorship.html">1‑on‑1 Mentorship</a><br>
+        • <a href="verification.html" target="_blank">Certificate Verification</a><br>
+        • <a href="contact.html" target="_blank">Contact Us</a><br><br>
+        Or email us at <a href="mailto:contact.indtern@gmail.com">contact.indtern@gmail.com</a>.
+    `;
+
+    // ===== UI ELEMENTS =====
+    const faqChatbotWindow = document.getElementById('faqChatbotWindow');
+    const faqChatbotToggle = document.getElementById('faqChatbotToggle');
+    const faqChatbotClose = document.getElementById('faqChatbotClose');
+    const faqChatMessages = document.getElementById('faqChatMessages');
+    const faqChatForm = document.getElementById('faqChatForm');
+    const faqChatInput = document.getElementById('faqChatInput');
+    const faqTopicSelect = document.getElementById('faqTopicSelect');
+
+    function addMessage(role, text, isHtml = false) {
+        const div = document.createElement('div');
+        div.classList.add('faq-chatbot-message', role === 'user' ? 'user' : 'bot');
+        if (isHtml) {
+            div.innerHTML = text;
+        } else {
+            div.textContent = text;
+        }
+        faqChatMessages.appendChild(div);
+        faqChatMessages.scrollTop = faqChatMessages.scrollHeight;
+    }
+
+    // Find best base FAQ (no context)
+    function findBestBaseFaq(msg) {
+        let bestFaq = null;
+        let bestScore = 0;
+
+        for (const faq of faqData) {
+            let score = 0;
+            for (const kw of faq.keywords) {
+                if (msg.includes(kw.toLowerCase())) {
+                    score++;
+                }
+            }
+            if (score > bestScore) {
+                bestScore = score;
+                bestFaq = faq;
+            }
+        }
+        return { faq: bestFaq, score: bestScore };
+    }
+
+    // Find best context FAQ, using lastTopic
+    function findBestContextFaq(msg) {
+        if (!lastTopic) return { faq: null, score: 0 };
+
+        let bestFaq = null;
+        let bestScore = 0;
+
+        for (const faq of contextFaqData) {
+            if (faq.topic !== lastTopic) continue;
+
+            let score = 0;
+            for (const kw of faq.keywords) {
+                if (msg.includes(kw.toLowerCase())) {
+                    score++;
+                }
+            }
+            if (score > bestScore) {
+                bestScore = score;
+                bestFaq = faq;
+            }
+        }
+        return { faq: bestFaq, score: bestScore };
+    }
+
+    function findFaqAnswer(message) {
+        const msg = message.toLowerCase();
+
+        const base = findBestBaseFaq(msg);
+        const ctx = findBestContextFaq(msg);
+
+        if (ctx.faq && ctx.score >= 1 && ctx.score >= base.score) {
+            return ctx.faq.answer;
+        }
+
+        if (base.faq && base.score >= 1) {
+            lastTopic = base.faq.topic;
+            return base.faq.answer;
+        }
+
+        return defaultAnswer;
+    }
+
+    // Handle dropdown topic selection (auto reply)
+    function handleTopicSelection(topicValue, topicLabel) {
+        if (!topicValue) return;
+        let syntheticUserText = '';
+
+        // Set up synthetic message and topic
+        switch (topicValue) {
+            case 'domains':
+                syntheticUserText = 'What internship domains are available?';
+                break;
+            case 'apply':
+                syntheticUserText = 'How to apply for internship?';
+                break;
+            case 'mentorship':
+                syntheticUserText = 'Tell me about 1 on 1 mentorship';
+                break;
+            case 'mentorship_fees':
+                lastTopic = 'mentorship';
+                syntheticUserText = 'fees';
+                break;
+            case 'internship_fees':
+                lastTopic = 'domains';
+                syntheticUserText = 'fees for internship';
+                break;
+            case 'certificate_verification':
+                syntheticUserText = 'How to verify certificate?';
+                break;
+            case 'courses':
+                syntheticUserText = 'Tell me about courses';
+                break;
+            case 'contact':
+                syntheticUserText = 'How to contact IndTern support?';
+                break;
+            default:
+                return;
+        }
+
+        // Show user selection
+        addMessage('user', topicLabel || 'Selected: ' + topicValue, false);
+
+        // Get answer using the same FAQ logic
+        const answerHtml = findFaqAnswer(syntheticUserText);
+        addMessage('bot', answerHtml, true);
+    }
+
+    faqChatbotToggle.addEventListener('click', () => {
+        faqChatbotWindow.style.display = 'flex';
+        faqChatbotToggle.style.display = 'none';
+    });
+
+    faqChatbotClose.addEventListener('click', () => {
+        faqChatbotWindow.style.display = 'none';
+        faqChatbotToggle.style.display = 'inline-flex';
+    });
+
+    // When user changes dropdown, answer immediately (except "other")
+    faqTopicSelect.addEventListener('change', () => {
+        const val = faqTopicSelect.value;
+        const label = faqTopicSelect.options[faqTopicSelect.selectedIndex].text;
+
+        if (!val) return;
+
+        if (val === 'other') {
+            // Focus input so user can type freely
+            faqChatInput.focus();
+            return;
+        }
+
+        handleTopicSelection(val, label);
+        // Reset input and reset dropdown back to placeholder
+        faqChatInput.value = '';
+        faqTopicSelect.value = '';
+    });
+
+    // Form submit: for typed questions (uses context + fuzzy keywords)
+    faqChatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const userText = faqChatInput.value.trim();
+        if (!userText) return;
+
+        addMessage('user', userText, false);
+        faqChatInput.value = '';
+
+        const answerHtml = findFaqAnswer(userText);
+        addMessage('bot', answerHtml, true);
+    });
+</script>
     <!-- ================= FOOTER ================= -->
     <footer class="site-footer">
         <div class="container footer-inner">
@@ -447,3 +801,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 </html>
+
