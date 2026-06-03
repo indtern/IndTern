@@ -174,10 +174,6 @@
                         
                     </form>
                 </section>
-                <div id="verify-icon-box" class="verify-icon-box">
-    <div id="verify-icon"></div>
-</div>
-
                 <!-- RIGHT: Info / status side -->
                 <aside class="verify-side">
                     <section class="info-panel">
@@ -312,7 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const resultBox = document.getElementById('verify-result');
     const submitButton = form.querySelector('.form-submit');
-    const iconBox = document.getElementById('verify-icon');
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -348,21 +343,11 @@ document.addEventListener('DOMContentLoaded', () => {
     "Candidate: " + (c.candidate_name || "N/A") + "\n" +
     "Domain: " + (c.domain || "N/A") + "\n" +
     "Completion: " + (c.completion_month || "N/A");
-                iconBox.textContent = "✔";
-iconBox.style.color = "green";
-iconBox.classList.remove("animate");
-void iconBox.offsetWidth;
-iconBox.classList.add("animate");
 
             } else {
                 resultBox.classList.add('invalid');
                 resultBox.textContent =
                     'No matching certificate record was found. Please check details.';
-                iconBox.textContent = "✖";
-iconBox.style.color = "red";
-iconBox.classList.remove("animate");
-void iconBox.offsetWidth;
-iconBox.classList.add("animate");
             }
 
         } catch (err) {
