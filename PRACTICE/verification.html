@@ -325,9 +325,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const response = await fetch('https://misty-tooth-2fdb.contact-indtern.workers.dev/', {
-    method: 'POST',
-    body: new URLSearchParams(data)
-});
+             method: 'POST',
+             headers: {
+              'Content-Type': 'application/json'
+            },
+             body: JSON.stringify(data)
+             }
             if (!response.ok) {
                 throw new Error('HTTP status ' + response.status);
             }
