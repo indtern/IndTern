@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultBox.classList.add('valid');
 
                 const c = result.certificate || {};
-                resultBox.textContent =
+                resultBox.innerText =
     "The certificate is VALID!\n" +
     "Candidate: " + (c.candidate_name || "N/A") + "\n" +
     "Domain: " + (c.domain || "N/A") + "\n" +
