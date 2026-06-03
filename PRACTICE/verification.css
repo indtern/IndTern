@@ -560,6 +560,43 @@ ul {
 .verify-result {
     white-space: pre-line;
 }
+
+.verify-layout-inner {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+/* RIGHT ICON BOX */
+.verify-icon-box {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ICON STYLE */
+#verify-icon {
+    font-size: 90px;
+    transition: all 0.4s ease;
+}
+
+/* ANIMATION */
+@keyframes pop {
+    0% { transform: scale(0.3); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.animate {
+    animation: pop 0.4s ease;
+}
+
+/* MOBILE HIDE */
+@media (max-width: 768px) {
+    .verify-icon-box {
+        display: none;
+    }
+}
 /* =========================
    RESPONSIVE
 ========================= */
