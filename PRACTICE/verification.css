@@ -557,7 +557,9 @@ ul {
     flex-direction: column;
     gap: 0.2rem;
 }
-
+.verify-result {
+    white-space: pre-line;
+}
 /* =========================
    RESPONSIVE
 ========================= */
