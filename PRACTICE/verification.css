@@ -568,20 +568,39 @@ ul {
 }
 
 /* RIGHT ICON BOX */
+..verify-layout-inner {
+    display: flex;
+    gap: 30px;
+    align-items: stretch;
+}
+
+/* LEFT */
+.verify-card {
+    flex: 2;
+}
+
+/* RIGHT */
 .verify-icon-box {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 300px; /* important */
 }
 
+/* ICON */
 #verify-icon {
     font-size: 90px;
     line-height: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* MOBILE HIDE */
+@media (max-width: 768px) {
+    .verify-icon-box {
+        display: none;
+    }
 }
 
 /* ANIMATION */
