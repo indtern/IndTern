@@ -573,12 +573,15 @@ ul {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 300px; /* important */
 }
 
-/* ICON STYLE */
 #verify-icon {
     font-size: 90px;
-    transition: all 0.4s ease;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* ANIMATION */
