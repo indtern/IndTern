@@ -326,10 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('https://script.google.com/macros/s/AKfycbzgLqQwNO6ZO4toxEdoe6oWBfj9NiwSbYSoMIGwWhUbh6IC-X5rE3q0SV4x_Yf-hDQ2/exec', {
     method: 'POST',
-    headers: {
-        'Content-Type': 'text/plain;charset=utf-8'
-    },
-    body: JSON.stringify(data)
+    body: new URLSearchParams(data)
 });
             if (!response.ok) {
                 throw new Error('HTTP status ' + response.status);
