@@ -308,6 +308,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const resultBox = document.getElementById('verify-result');
     const submitButton = form.querySelector('.form-submit');
+    const popup = document.getElementById('verify-popup');
+const popupTitle = document.getElementById('popup-title');
+const popupMessage = document.getElementById('popup-message');
+
+function showPopup(title, message, type) {
+    popup.classList.remove('hidden');
+    popupTitle.textContent = title;
+    popupMessage.textContent = message;
+
+    if (type === 'valid') {
+        popupTitle.style.color = 'green';
+    } else {
+        popupTitle.style.color = 'red';
+    }
+}
+
+function closePopup() {
+    popup.classList.add('hidden');
+}
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
