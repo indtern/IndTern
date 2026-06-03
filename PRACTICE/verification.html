@@ -329,8 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
     headers: {
         'Content-Type': 'text/plain;charset=utf-8'
     },
-    body: JSON.stringify(data),
-    mode: 'no-cors'
+    body: JSON.stringify(data)
 });
             if (!response.ok) {
                 throw new Error('HTTP status ' + response.status);
