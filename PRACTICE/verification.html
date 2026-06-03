@@ -359,20 +359,19 @@ function closePopup() {
             if (result.status === 'valid') {
                 resultBox.classList.add('valid');
                 const c = result.certificate || {};
-                resultBox.textContent =
-                    'This certificate is VALID. ' +
-                    (c.candidate_name ? ('Candidate: ' + c.candidate_name + '. ') : '') +
-                    (c.domain ? ('Domain: ' + c.domain + '. ') : '') +
-                    (c.completion_month ? ('Completion: ' + c.completion_month + '.') : '');
-            } else if (result.status === 'invalid') {
-                resultBox.classList.add('invalid');
-                resultBox.textContent =
-                    'No matching certificate record was found. Please check the Certificate ID and Candidate Name.';
-            } else {
-                resultBox.classList.add('error');
-                resultBox.textContent =
-                    result.message || 'Unexpected response from server.';
-            }
+                if (result.status === 'valid') {
+    showPopup(
+        "Certificate Verified ✅",
+        "This certificate is valid. Candidate: " + result.certificate.candidate_name,
+        "valid"
+    );
+} else {
+    showPopup(
+        "Verification Failed ❌",
+        "No matching certificate found. Please check details.",
+        "invalid"
+    );
+}
         } catch (err) {
             console.error(err);
             resultBox.classList.add('error');
