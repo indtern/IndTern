@@ -339,10 +339,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const c = result.certificate || {};
                 resultBox.textContent =
-                    'This certificate is VALID. ' +
-                    (c.candidate_name ? ('Candidate: ' + c.candidate_name + '. ') : '') +
-                    (c.domain ? ('Domain: ' + c.domain + '. ') : '') +
-                    (c.completion_month ? ('Completion: ' + c.completion_month + '.') : '');
+    "The certificate is VALID!\n" +
+    "Candidate: " + (c.candidate_name || "N/A") + "\n" +
+    "Domain: " + (c.domain || "N/A") + "\n" +
+    "Completion: " + (c.completion_month || "N/A");
 
             } else {
                 resultBox.classList.add('invalid');
