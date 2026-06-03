@@ -308,25 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const resultBox = document.getElementById('verify-result');
     const submitButton = form.querySelector('.form-submit');
-    const popup = document.getElementById('verify-popup');
-const popupTitle = document.getElementById('popup-title');
-const popupMessage = document.getElementById('popup-message');
-
-function showPopup(title, message, type) {
-    popup.classList.remove('hidden');
-    popupTitle.textContent = title;
-    popupMessage.textContent = message;
-
-    if (type === 'valid') {
-        popupTitle.style.color = 'green';
-    } else {
-        popupTitle.style.color = 'red';
-    }
-}
-
-function closePopup() {
-    popup.classList.add('hidden');
-}
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -334,7 +315,7 @@ function closePopup() {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
 
-        // Reset result box
+        // reset UI
         resultBox.className = 'verify-result';
         resultBox.textContent = '';
 
@@ -344,34 +325,31 @@ function closePopup() {
 
         try {
             const response = await fetch('https://misty-tooth-2fdb.contact-indtern.workers.dev/', {
-             method: 'POST',
-             headers: {
-              'Content-Type': 'application/json'
-            },
-             body: JSON.stringify(data)
-             });
-            if (!response.ok) {
-                throw new Error('HTTP status ' + response.status);
-            }
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
 
             const result = await response.json();
 
             if (result.status === 'valid') {
                 resultBox.classList.add('valid');
+
                 const c = result.certificate || {};
-                if (result.status === 'valid') {
-    showPopup(
-        "Certificate Verified ✅",
-        "This certificate is valid. Candidate: " + result.certificate.candidate_name,
-        "valid"
-    );
-} else {
-    showPopup(
-        "Verification Failed ❌",
-        "No matching certificate found. Please check details.",
-        "invalid"
-    );
-}
+                resultBox.textContent =
+                    'This certificate is VALID. ' +
+                    (c.candidate_name ? ('Candidate: ' + c.candidate_name + '. ') : '') +
+                    (c.domain ? ('Domain: ' + c.domain + '. ') : '') +
+                    (c.completion_month ? ('Completion: ' + c.completion_month + '.') : '');
+
+            } else {
+                resultBox.classList.add('invalid');
+                resultBox.textContent =
+                    'No matching certificate record was found. Please check details.';
+            }
+
         } catch (err) {
             console.error(err);
             resultBox.classList.add('error');
@@ -384,13 +362,6 @@ function closePopup() {
     });
 });
 </script>
-    <div id="verify-popup" class="popup hidden">
-    <div class="popup-content">
-        <h2 id="popup-title">Result</h2>
-        <p id="popup-message"></p>
-        <button onclick="closePopup()" class="popup-btn">Close</button>
-    </div>
-</div>
 </body>
 
 
