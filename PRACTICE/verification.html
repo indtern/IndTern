@@ -367,6 +367,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
+    <script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby5hK7nFbFXlOxK38geOLxAyDpYCush1uBPt5ww6qjqSpM_I_yyMlhSvi-iHNtiCoYQ/exec";
+
+document.querySelector(".verify-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const certId = document.getElementById("cert-id").value.trim();
+    const studentName = document.getElementById("student-name").value.trim();
+    const resultBox = document.getElementById("verify-result");
+
+    if (!certId || !studentName) {
+        resultBox.innerHTML = `<p style="color: #b71c1c; margin-top: 12px;">Please enter both Certificate ID and Candidate Full Name.</p>`;
+        return;
+    }
+
+    resultBox.innerHTML = `<p style="margin-top: 12px;">Verifying certificate against IndTern records...</p>`;
+
+    try {
+        const url = `${SCRIPT_URL}?id=${encodeURIComponent(certId)}&name=${encodeURIComponent(studentName)}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.valid) {
+            resultBox.innerHTML = `
+                <div style="margin-top: 16px; padding: 14px; border: 1px solid #2e7d32; background: #e8f5e9; color: #1b5e20; border-radius: 8px;">
+                    <strong>✓ Authentic IndTern Certificate</strong><br><br>
+                    <strong>Certificate ID:</strong> ${data.certificate_id}<br>
+                    <strong>Candidate Name:</strong> ${data.candidate_name}<br>
+                    <strong>Domain:</strong> ${data.domain}<br>
+                    <strong>Completion:</strong> ${data.completion_month}
+                </div>`;
+        } else {
+            resultBox.innerHTML = `
+                <div style="margin-top: 16px; padding: 14px; border: 1px solid #c62828; background: #ffebee; color: #b71c1c; border-radius: 8px;">
+                    <strong>✕ Verification Failed</strong><br>
+                    No matching record found. Please check the Certificate ID and exact spelling of the name.
+                </div>`;
+        }
+    } catch (error) {
+        resultBox.innerHTML = `<p style="color: #b71c1c; margin-top: 12px;">Unable to connect to verification server. Please try again later.</p>`;
+    }
+});
+</script>
+</body>
+
 </body>
 
 </html>
