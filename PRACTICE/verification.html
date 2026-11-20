@@ -305,20 +305,29 @@
     <script>
     document.addEventListener("DOMContentLoaded", function () {
         // 1. ADD YOUR ISSUED CERTIFICATES HERE
+        // Use YYYY-MM format for completion (e.g., "2025-05" for May 2025) so it matches the month picker
         const CERTIFICATES = [
             {
                 id: "IND-2025-0001",
                 name: "Rahul Sharma",
                 domain: "Web Development",
-                completion: "May 2025"
+                completion: "2025-05"
             },
             {
                 id: "IND-2025-0002",
                 name: "Priya Verma",
                 domain: "Python Programming",
-                completion: "June 2025"
+                completion: "2025-06"
             }
         ];
+
+        // Helper to display "2025-05" as "May 2025"
+        function formatMonth(ym) {
+            if (!ym || !ym.includes("-")) return ym || "N/A";
+            const [year, month] = ym.split("-");
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            return `${months[parseInt(month, 10) - 1] || month} ${year}`;
+        }
 
         // 2. VERIFICATION LOGIC
         const form = document.querySelector(".verify-form");
@@ -331,34 +340,41 @@
 
             const inputId = document.getElementById("cert-id").value.trim().toUpperCase();
             const inputName = document.getElementById("student-name").value.trim().toLowerCase();
+            const inputDomain = document.getElementById("domain").value.trim();
+            const inputCompletion = document.getElementById("completion").value.trim();
 
+            // Reset result box classes
             resultBox.className = "verify-result";
 
             if (!inputId || !inputName) {
-                resultBox.innerHTML = `<p style="color: #b71c1c; margin-top: 12px;">Please enter both Certificate ID and Candidate Full Name.</p>`;
+                resultBox.classList.add("error");
+                resultBox.innerHTML = `<strong>⚠ Missing Details:</strong> Please enter both Certificate ID and Candidate Full Name.`;
                 return;
             }
 
-            const match = CERTIFICATES.find(cert =>
-                cert.id.trim().toUpperCase() === inputId &&
-                cert.name.trim().toLowerCase() === inputName
-            );
+            const match = CERTIFICATES.find(cert => {
+                const idMatches = cert.id.trim().toUpperCase() === inputId;
+                const nameMatches = cert.name.trim().toLowerCase() === inputName;
+                const domainMatches = !inputDomain || cert.domain.toLowerCase() === inputDomain.toLowerCase();
+                const completionMatches = !inputCompletion || cert.completion === inputCompletion;
+                return idMatches && nameMatches && domainMatches && completionMatches;
+            });
 
             if (match) {
+                resultBox.classList.add("valid");
                 resultBox.innerHTML = `
-                    <div style="margin-top: 16px; padding: 14px; border: 1px solid #2e7d32; background: #e8f5e9; color: #1b5e20; border-radius: 8px;">
-                        <strong>✓ Authentic IndTern Certificate</strong><br><br>
-                        <strong>Certificate ID:</strong> ${match.id}<br>
-                        <strong>Candidate Name:</strong> ${match.name}<br>
-                        <strong>Domain:</strong> ${match.domain}<br>
-                        <strong>Completion:</strong> ${match.completion}
-                    </div>`;
+                    <strong>✓ Authentic IndTern Certificate</strong><br><br>
+                    <strong>Certificate ID:</strong> ${match.id}<br>
+                    <strong>Candidate Name:</strong> ${match.name}<br>
+                    <strong>Domain:</strong> ${match.domain}<br>
+                    <strong>Completion:</strong> ${formatMonth(match.completion)}
+                `;
             } else {
+                resultBox.classList.add("invalid");
                 resultBox.innerHTML = `
-                    <div style="margin-top: 16px; padding: 14px; border: 1px solid #c62828; background: #ffebee; color: #b71c1c; border-radius: 8px;">
-                        <strong>✕ Verification Failed</strong><br>
-                        No matching record found. Please check the Certificate ID and exact spelling of the name.
-                    </div>`;
+                    <strong>✕ Verification Failed</strong><br>
+                    No matching record found. Please check the Certificate ID, spelling of the name, and any optional details entered.
+                `;
             }
         });
     });
