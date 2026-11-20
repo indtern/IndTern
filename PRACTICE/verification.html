@@ -52,7 +52,7 @@
                     </li>
                 </ul>
 
-                <a href="https://forms.gle/XTTPWNprCU3gy33x5"
+                <a href="apply.html"
                    class="btn btn-primary nav-cta"
                    target="_blank"
                    rel="noopener noreferrer">
@@ -300,61 +300,68 @@
                 <p>Designed and Developed by IndTern.</p>
             </div>
         </div>
-    </footer>
-    
-<script>
-// 1. ADD YOUR ISSUED CERTIFICATES HERE
-const CERTIFICATES = [
-    {
-        id: "IND-2025-0001",
-        name: "Rahul Sharma",
-        domain: "Web Development",
-        completion: "May 2025"
-    },
-    {
-        id: "IND-2025-0002",
-        name: "Priya Verma",
-        domain: "Python Programming",
-        completion: "June 2025"
-    }
-    // Copy and paste the block above (with a comma) to add more students
-];
+        </footer>
 
-// 2. VERIFICATION LOGIC (No need to edit below this line)
-document.querySelector(".verify-form").addEventListener("submit", function (e) {
-    e.preventDefault();
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // 1. ADD YOUR ISSUED CERTIFICATES HERE
+        const CERTIFICATES = [
+            {
+                id: "IND-2025-0001",
+                name: "Rahul Sharma",
+                domain: "Web Development",
+                completion: "May 2025"
+            },
+            {
+                id: "IND-2025-0002",
+                name: "Priya Verma",
+                domain: "Python Programming",
+                completion: "June 2025"
+            }
+        ];
 
-    const inputId = document.getElementById("cert-id").value.trim().toUpperCase();
-    const inputName = document.getElementById("student-name").value.trim().toLowerCase();
-    const resultBox = document.getElementById("verify-result");
+        // 2. VERIFICATION LOGIC
+        const form = document.querySelector(".verify-form");
+        const resultBox = document.getElementById("verify-result");
 
-    if (!inputId || !inputName) {
-        resultBox.innerHTML = `<p style="color: #b71c1c; margin-top: 12px;">Please enter both Certificate ID and Candidate Full Name.</p>`;
-        return;
-    }
+        if (!form || !resultBox) return;
 
-    const match = CERTIFICATES.find(cert => 
-        cert.id.trim().toUpperCase() === inputId && 
-        cert.name.trim().toLowerCase() === inputName
-    );
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
 
-    if (match) {
-        resultBox.innerHTML = `
-            <div style="margin-top: 16px; padding: 14px; border: 1px solid #2e7d32; background: #e8f5e9; color: #1b5e20; border-radius: 8px;">
-                <strong>✓ Authentic IndTern Certificate</strong><br><br>
-                <strong>Certificate ID:</strong> ${match.id}<br>
-                <strong>Candidate Name:</strong> ${match.name}<br>
-                <strong>Domain:</strong> ${match.domain}<br>
-                <strong>Completion:</strong> ${match.completion}
-            </div>`;
-    } else {
-        resultBox.innerHTML = `
-            <div style="margin-top: 16px; padding: 14px; border: 1px solid #c62828; background: #ffebee; color: #b71c1c; border-radius: 8px;">
-                <strong>✕ Verification Failed</strong><br>
-                No matching record found. Please check the Certificate ID and exact spelling of the name.
-            </div>`;
-    }
-});
-</script>   
+            const inputId = document.getElementById("cert-id").value.trim().toUpperCase();
+            const inputName = document.getElementById("student-name").value.trim().toLowerCase();
+
+            resultBox.className = "verify-result";
+
+            if (!inputId || !inputName) {
+                resultBox.innerHTML = `<p style="color: #b71c1c; margin-top: 12px;">Please enter both Certificate ID and Candidate Full Name.</p>`;
+                return;
+            }
+
+            const match = CERTIFICATES.find(cert =>
+                cert.id.trim().toUpperCase() === inputId &&
+                cert.name.trim().toLowerCase() === inputName
+            );
+
+            if (match) {
+                resultBox.innerHTML = `
+                    <div style="margin-top: 16px; padding: 14px; border: 1px solid #2e7d32; background: #e8f5e9; color: #1b5e20; border-radius: 8px;">
+                        <strong>✓ Authentic IndTern Certificate</strong><br><br>
+                        <strong>Certificate ID:</strong> ${match.id}<br>
+                        <strong>Candidate Name:</strong> ${match.name}<br>
+                        <strong>Domain:</strong> ${match.domain}<br>
+                        <strong>Completion:</strong> ${match.completion}
+                    </div>`;
+            } else {
+                resultBox.innerHTML = `
+                    <div style="margin-top: 16px; padding: 14px; border: 1px solid #c62828; background: #ffebee; color: #b71c1c; border-radius: 8px;">
+                        <strong>✕ Verification Failed</strong><br>
+                        No matching record found. Please check the Certificate ID and exact spelling of the name.
+                    </div>`;
+            }
+        });
+    });
+    </script>
 </body>
 </html>
