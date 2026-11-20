@@ -366,52 +366,59 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-</script>
-    <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzy-4xGZnQf3MnOgS5tOqM9uF_v1RmqwQUV2jDpB-31zfRG6scBSqvNYh0j_zIBGpNg/exec";
+<script>
+// 1. ADD YOUR ISSUED CERTIFICATES HERE
+const CERTIFICATES = [
+    {
+        id: "IND-2025-0001",
+        name: "Rahul Sharma",
+        domain: "Web Development",
+        completion: "May 2025"
+    },
+    {
+        id: "IND-2025-0002",
+        name: "Priya Verma",
+        domain: "Python Programming",
+        completion: "June 2025"
+    }
+    // Copy and paste the block above (with a comma) to add more students
+];
 
-document.querySelector(".verify-form").addEventListener("submit", async function (e) {
+// 2. VERIFICATION LOGIC (No need to edit below this line)
+document.querySelector(".verify-form").addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const certId = document.getElementById("cert-id").value.trim();
-    const studentName = document.getElementById("student-name").value.trim();
+    const inputId = document.getElementById("cert-id").value.trim().toUpperCase();
+    const inputName = document.getElementById("student-name").value.trim().toLowerCase();
     const resultBox = document.getElementById("verify-result");
 
-    if (!certId || !studentName) {
+    if (!inputId || !inputName) {
         resultBox.innerHTML = `<p style="color: #b71c1c; margin-top: 12px;">Please enter both Certificate ID and Candidate Full Name.</p>`;
         return;
     }
 
-    resultBox.innerHTML = `<p style="margin-top: 12px;">Verifying certificate against IndTern records...</p>`;
+    const match = CERTIFICATES.find(cert => 
+        cert.id.trim().toUpperCase() === inputId && 
+        cert.name.trim().toLowerCase() === inputName
+    );
 
-    try {
-        const url = `${SCRIPT_URL}?id=${encodeURIComponent(certId)}&name=${encodeURIComponent(studentName)}`;
-        const response = await fetch(url);
-        const data = await response.json();
-
-        if (data.valid) {
-            resultBox.innerHTML = `
-                <div style="margin-top: 16px; padding: 14px; border: 1px solid #2e7d32; background: #e8f5e9; color: #1b5e20; border-radius: 8px;">
-                    <strong>✓ Authentic IndTern Certificate</strong><br><br>
-                    <strong>Certificate ID:</strong> ${data.certificate_id}<br>
-                    <strong>Candidate Name:</strong> ${data.candidate_name}<br>
-                    <strong>Domain:</strong> ${data.domain}<br>
-                    <strong>Completion:</strong> ${data.completion_month}
-                </div>`;
-        } else {
-            resultBox.innerHTML = `
-                <div style="margin-top: 16px; padding: 14px; border: 1px solid #c62828; background: #ffebee; color: #b71c1c; border-radius: 8px;">
-                    <strong>✕ Verification Failed</strong><br>
-                    No matching record found. Please check the Certificate ID and exact spelling of the name.
-                </div>`;
-        }
-    } catch (error) {
-        resultBox.innerHTML = `<p style="color: #b71c1c; margin-top: 12px;">Unable to connect to verification server. Please try again later.</p>`;
+    if (match) {
+        resultBox.innerHTML = `
+            <div style="margin-top: 16px; padding: 14px; border: 1px solid #2e7d32; background: #e8f5e9; color: #1b5e20; border-radius: 8px;">
+                <strong>✓ Authentic IndTern Certificate</strong><br><br>
+                <strong>Certificate ID:</strong> ${match.id}<br>
+                <strong>Candidate Name:</strong> ${match.name}<br>
+                <strong>Domain:</strong> ${match.domain}<br>
+                <strong>Completion:</strong> ${match.completion}
+            </div>`;
+    } else {
+        resultBox.innerHTML = `
+            <div style="margin-top: 16px; padding: 14px; border: 1px solid #c62828; background: #ffebee; color: #b71c1c; border-radius: 8px;">
+                <strong>✕ Verification Failed</strong><br>
+                No matching record found. Please check the Certificate ID and exact spelling of the name.
+            </div>`;
     }
 });
-</script>
+</script>   
 </body>
-
-</body>
-
 </html>
